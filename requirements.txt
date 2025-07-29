@@ -1,0 +1,14 @@
+    fastapi
+    uvicorn
+    pydantic
+    pymongo
+    splunk-sdk
+    apscheduler
+    transformers
+    torch
+    pandas
+    requests
+    scikit-learn
+    matplotlib 
+    numpy
+sentence-transformers>=2.2.2
