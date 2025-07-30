@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  hdfs-anomaly-detector:
+    build: .
+    container_name: hdfs-anomaly-detector
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./plots:/app/plots
+      - ./models:/app/models
+      - ./logs:/app/logs
+    environment:
+      - PYTHONPATH=/app
+      - LOG_LEVEL=INFO
+    command: python enterprise_detector.py --plot
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: Add a simple web interface
+  # web-interface:
+  #   build: .
+  #   container_name: hdfs-web-interface
+  #   ports:
+  #     - "8080:8080"
+  #   volumes:
+  #     - ./plots:/app/plots:ro
+  #   command: python -m http.server 8080
+  #   depends_on:
+  #     - hdfs-anomaly-detector
